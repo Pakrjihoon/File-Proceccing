@@ -1,19 +1,19 @@
-/* ¹®ÀÚ¿­ Key°ª¿¡ ´ëÇÑ HashingÀÇ ¿¹
-1. ¾ËÆÄºªÀ» ¼ıÀÚ·Î º¯È¯ : toupper(data.key[i])-64 (´ë¼Ò¹®ÀÚ µ¿ÀÏÇÏ°Ô)
+/* ë¬¸ìì—´ Keyê°’ì— ëŒ€í•œ Hashingì˜ ì˜ˆ
+1. ì•ŒíŒŒë²³ì„ ìˆ«ìë¡œ ë³€í™˜ : toupper(data.key[i])-64 (ëŒ€ì†Œë¬¸ì ë™ì¼í•˜ê²Œ)
 
    A  B  C  D  E  F  G  H  I  J   K  L   M   N   O   P   Q   R   S   T   U   V   W   X   Y   Z
    1  2  3  4  5  6  7  8  9 10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26
 
-2. °¢ ¹®ÀÚ¿¡ ´ëÇÑ xor ¿¬»êÀ» ÇØÁØ´Ù 
+2. ê° ë¬¸ìì— ëŒ€í•œ xor ì—°ì‚°ì„ í•´ì¤€ë‹¤ 
 		for(i=0; i<strlen(new_input); i++)           
 			addr = addr^(toupper(new_input[i])-64);
 
-    ¿¹) AND ÀÇ °æ¿ì 1 XOR 14 XOR 4
+    ì˜ˆ) AND ì˜ ê²½ìš° 1 XOR 14 XOR 4
 				=    0001(2)
 				 XOR 1110(2)
 				 XOR 0100(2)
 				 ==========
-				     1011(2) = 11  ---> HashµÈ ÁÖ¼Ò°ª
+				     1011(2) = 11  ---> Hashëœ ì£¼ì†Œê°’
 */
 
 #include <stdio.h>
@@ -23,7 +23,7 @@
 
 #define NUMBER_OF_BUCKETS 32
 #define NUMBER_OF_OVERFLOWS 21
-#define BLOCK_SIZE 18   //µ¥ÀÌÅÍ 14 + °ø¹é¹®ÀÚ 2 + crlf 2
+#define BLOCK_SIZE 18   //ë°ì´í„° 14 + ê³µë°±ë¬¸ì 2 + crlf 2
 
 
 
@@ -33,8 +33,8 @@ int main(void)
 	char  new_input[11], key[11];
 	int i, link, new_link, addr, home, location;
 
-	// ¼ºÀû ÆÄÀÏÀ» ÀĞ±â/¾²±â ¸ğµå·Î ¿¬´Ù.(w+ ¸ğµå´Â ±âÁ¸ ³»¿ëÀ» Áö¿ö¹ö¸®¹Ç·Î ¹İµå½Ã r+¸ğµå·Î..)
-	// ±×·¯³ª r+¸ğµå´Â È­ÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì È­ÀÏÀ» ¸¸µéÁö ¸øÇÏ¹Ç·Î ´ÙÀ½°ú °°ÀÌ ¸¸µé¾îÁØ´Ù. 
+	// ì„±ì  íŒŒì¼ì„ ì½ê¸°/ì“°ê¸° ëª¨ë“œë¡œ ì—°ë‹¤.(w+ ëª¨ë“œëŠ” ê¸°ì¡´ ë‚´ìš©ì„ ì§€ì›Œë²„ë¦¬ë¯€ë¡œ ë°˜ë“œì‹œ r+ëª¨ë“œë¡œ..)
+	// ê·¸ëŸ¬ë‚˜ r+ëª¨ë“œëŠ” í™”ì¼ì´ ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš° í™”ì¼ì„ ë§Œë“¤ì§€ ëª»í•˜ë¯€ë¡œ ë‹¤ìŒê³¼ ê°™ì´ ë§Œë“¤ì–´ì¤€ë‹¤. 
 
 	if( (fp = fopen("word.txt", "r+")) == NULL )
 	{
@@ -43,41 +43,41 @@ int main(void)
 		{
 			fseek(fp, i*BLOCK_SIZE, SEEK_SET);
 
-				fprintf(fp, "%02d %10s %2d\n",i, "__________", -1); // ÃÊ±âÈ­ 
+				fprintf(fp, "%02d %10s %2d\n",i, "__________", -1); // ì´ˆê¸°í™” 
 
 		}
-				fprintf(stdout,"È­ÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê¾Æ »õ·Î ¸¸µé¾ú½À´Ï´Ù.\n");
+				fprintf(stdout,"í™”ì¼ì´ ì¡´ì¬í•˜ì§€ ì•Šì•„ ìƒˆë¡œ ë§Œë“¤ì—ˆìŠµë‹ˆë‹¤.\n");
 				fclose(fp);
 				fp = fopen("word.txt", "r+");
 	}
 
-	// »ç¿ëÀÚ·ÎºÎÅÍ ÇĞ¹ø, ÀÌ¸§, ¼ºÀûÀ» ÀÔ·Â¹Ş¾Æ¼­ ÆÄÀÏ¿¡ ÀúÀåÇÑ´Ù.
+	// ì‚¬ìš©ìë¡œë¶€í„° í•™ë²ˆ, ì´ë¦„, ì„±ì ì„ ì…ë ¥ë°›ì•„ì„œ íŒŒì¼ì— ì €ì¥í•œë‹¤.
 	while(1)
 	{
 		addr=0;
-		printf("Å°°ªÀ» ÀÔ·ÂÇÏ½Ã¿ä: (XÀÌ¸é Á¾·á)");
+		printf("í‚¤ê°’ì„ ì…ë ¥í•˜ì‹œìš”: (Xì´ë©´ ì¢…ë£Œ)");
  		fflush(stdin);
 		scanf("%s", new_input);
 		if(strcmp(new_input, "X")==0 || strcmp(new_input, "x")==0) 	break;
 
 		for(i=0; i<strlen(new_input); i++)           
-			addr = addr^(toupper(new_input[i])-64);   //°¢ ¹®ÀÚ¿­¿¡ ´ëÇÑ XOR ¿¬»êÀ» ¼öÇàÇÔ
+			addr = addr^(toupper(new_input[i])-64);   //ê° ë¬¸ìì—´ì— ëŒ€í•œ XOR ì—°ì‚°ì„ ìˆ˜í–‰í•¨
 
 		fseek(fp, addr*BLOCK_SIZE, SEEK_SET);
 		fscanf(fp, "%d %s %d", &location, key, &link);
 
 		if(strcmp(key, "__________") == 0)
 		{
-		fprintf(stdout, "»ğÀÔ : %d\n", location);
+		fprintf(stdout, "ì‚½ì… : %d\n", location);
 			fseek(fp, addr*BLOCK_SIZE + 3, SEEK_SET);
 			fprintf(fp, "%10s %d\n", new_input, -1);
 		}
 		else
 		{
 			home = addr;
-			new_link=link;    //»õ·Î »ğÀÔµÉ Å°°ªÀÇ ¸µÅ©´Â È¨¹öÄÏÀÇ ¸µÅ©°ªÀ» »ç¿ëÇÔ
+			new_link=link;    //ìƒˆë¡œ ì‚½ì…ë  í‚¤ê°’ì˜ ë§í¬ëŠ” í™ˆë²„ì¼“ì˜ ë§í¬ê°’ì„ ì‚¬ìš©í•¨
 
-			addr = NUMBER_OF_BUCKETS;   //¿À¹öÇÃ·Î¿ì ¿µ¿ª Å½»ö
+			addr = NUMBER_OF_BUCKETS;   //ì˜¤ë²„í”Œë¡œìš° ì˜ì—­ íƒìƒ‰
 			do 
 			{
 				fseek(fp, addr*BLOCK_SIZE, SEEK_SET);
@@ -85,13 +85,13 @@ int main(void)
 				addr ++;
 			} while (strcmp(key, "__________") != 0);
 
-			addr--;   // do while ¹®ÀåÀÌ¹Ç·Î Ãß°¡ Áõ°¡ºĞ »©ÁÜ
+			addr--;   // do while ë¬¸ì¥ì´ë¯€ë¡œ ì¶”ê°€ ì¦ê°€ë¶„ ë¹¼ì¤Œ
 
-			//¿À¹öÇÃ·Î¿ì ¿µ¿ª¿¡ ±â·Ï
+			//ì˜¤ë²„í”Œë¡œìš° ì˜ì—­ì— ê¸°ë¡
 //
 //
 //
-			//±âº»±¸¿ª ¸µÅ© ¼öÁ¤
+			//ê¸°ë³¸êµ¬ì—­ ë§í¬ ìˆ˜ì •
 //
 //
 		}
@@ -114,7 +114,7 @@ int main(void)
 
 #define NUMBER_OF_BUCKET 33
 #define NUMBER_OF_OVERFLOWS 21
-#define BLOCK_SIZE 18   //µ¥ÀÌÅÍ 14 + °ø¹é¹®ÀÚ 2 + crlf 2
+#define BLOCK_SIZE 18   //ë°ì´í„° 14 + ê³µë°±ë¬¸ì 2 + crlf 2
 
 int main(void)
 {
@@ -122,39 +122,39 @@ int main(void)
 	char  new_input[11], key[11];
 	int i, link, new_link, addr, home, location;
 
-	// »ç¿ëÀÚ·ÎºÎÅÍ ÇĞ¹ø, ÀÌ¸§, ¼ºÀûÀ» ÀÔ·Â¹Ş¾Æ¼­ ÆÄÀÏ¿¡¼­ ÅÆ»öÀ» ½ÃÀÛÇÑ´Ù.
+	// ì‚¬ìš©ìë¡œë¶€í„° í•™ë²ˆ, ì´ë¦„, ì„±ì ì„ ì…ë ¥ë°›ì•„ì„œ íŒŒì¼ì—ì„œ íƒ¬ìƒ‰ì„ ì‹œì‘í•œë‹¤.
 	while(1)
 	{
 		addr=0;
-		printf("Å°°ªÀ» ÀÔ·ÂÇÏ½Ã¿ä: (XÀÌ¸é Á¾·á)");
+		printf("í‚¤ê°’ì„ ì…ë ¥í•˜ì‹œìš”: (Xì´ë©´ ì¢…ë£Œ)");
 		scanf("%s", new_input);
 		if(strcmp(new_input, "X")==0 || strcmp(new_input, "x")==0) break;
 
 		for(i=0; i<strlen(new_input); i++)           
-			addr = addr^(toupper(new_input[i])-64);   //°¢ ¹®ÀÚ¿­¿¡ ´ëÇÑ XOR ¿¬»êÀ» ¼öÇàÇÔ
+			addr = addr^(toupper(new_input[i])-64);   //ê° ë¬¸ìì—´ì— ëŒ€í•œ XOR ì—°ì‚°ì„ ìˆ˜í–‰í•¨
 
 		fp = fopen("word.txt", "r+");
 		while(1)
 		{
 		fseek(fp, addr*BLOCK_SIZE, SEEK_SET);
 		fscanf(fp, "%d %s %d", &location, key, &link);
-			if(strcmp(key,new_input)==0)   //ÀÔ·Â°ª°ú °°Àº ·¹ÄÚµå Å°¸¦ Ã£À¸¸é
+			if(strcmp(key,new_input)==0)   //ì…ë ¥ê°’ê³¼ ê°™ì€ ë ˆì½”ë“œ í‚¤ë¥¼ ì°¾ìœ¼ë©´
 			{
-				printf("Ã£Àº ÁÖ¼Ò = %d\n", addr);
+				printf("ì°¾ì€ ì£¼ì†Œ = %d\n", addr);
 				fclose(fp);
 				break;
 			}
 			else
 			{
-				if (link == -1)    // ¸µÅ©(Ã¼ÀÎ)ÀÇ ³¡À» ¸¸³ª¸é
+				if (link == -1)    // ë§í¬(ì²´ì¸)ì˜ ëì„ ë§Œë‚˜ë©´
 				{
-					printf("Ã£À» ¼ö ¾ø½À´Ï´Ù.\n");
+					printf("ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
 					break;
 				}
 				else
 				{
 				     printf("%d -> ", addr);
-					addr = link;  // ´ÙÀ½ ¸µÅ©¸¦ µû¶ó Å½»ö °è¼ÓÇÑ´Ù.
+					addr = link;  // ë‹¤ìŒ ë§í¬ë¥¼ ë”°ë¼ íƒìƒ‰ ê³„ì†í•œë‹¤.
 					continue;
 				}
 			}
