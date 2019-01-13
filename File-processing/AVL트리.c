@@ -3,7 +3,7 @@
 #define true 1
 #define false 0
 
-// ³ëµåÀÇ ±¸Á¶
+// ë…¸ë“œì˜ êµ¬ì¡°
 struct TreeNode {
 	int key;
 	int left;
@@ -25,49 +25,49 @@ void AVL();
 FILE *fp, *fd, *ct;
 int root = 0;
 
-// ÀÌÁø Å½»ö Æ®¸® ÇÁ·Î±×·¥ 
+// ì´ì§„ íƒìƒ‰ íŠ¸ë¦¬ í”„ë¡œê·¸ë¨ 
 void main() {
 	char command; int  key;
 	/*if ((ct = fopen("count.txt", "r+")) == NULL) {
 	ct = fopen("count.txt", "w");
 	}
 	fscanf(ct,"%d", &count);*/
-	// È­ÀÏÀ» ÀĞ±â/¾²±â ¸ğµå·Î ¿¬´Ù.(w+ ¸ğµå´Â ±âÁ¸ ³»¿ëÀ» Áö¿ö¹ö¸®¹Ç·Î ¹İµå½Ã r+¸ğµå·Î..)
-	// ±×·¯³ª r+¸ğµå´Â È­ÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì È­ÀÏÀ» ¸¸µéÁö ¸øÇÏ¹Ç·Î ´ÙÀ½°ú °°ÀÌ ¸¸µé¾îÁØ´Ù. 
+	// í™”ì¼ì„ ì½ê¸°/ì“°ê¸° ëª¨ë“œë¡œ ì—°ë‹¤.(w+ ëª¨ë“œëŠ” ê¸°ì¡´ ë‚´ìš©ì„ ì§€ì›Œë²„ë¦¬ë¯€ë¡œ ë°˜ë“œì‹œ r+ëª¨ë“œë¡œ..)
+	// ê·¸ëŸ¬ë‚˜ r+ëª¨ë“œëŠ” í™”ì¼ì´ ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš° í™”ì¼ì„ ë§Œë“¤ì§€ ëª»í•˜ë¯€ë¡œ ë‹¤ìŒê³¼ ê°™ì´ ë§Œë“¤ì–´ì¤€ë‹¤. 
 	if ((fp = fopen("tree.txt", "r+")) == NULL)
 	{
 		fp = fopen("tree.txt", "w+");
-		fprintf(fp, "%2d %2d %2d\n", -1, -1, -1); // ÃÊ±âÈ­ 
+		fprintf(fp, "%2d %2d %2d\n", -1, -1, -1); // ì´ˆê¸°í™” 
 	}
 	fd = fopen("tree.txt", "r+");
 	do {
 		menu();
-		printf("ÇöÀç Root : %d \n", root);
+		printf("í˜„ì¬ Root : %d \n", root);
 		command = getchar();
 
 		switch (command) {
-		case 'i':  //»ğÀÔ
-			printf("À½¼ö¸¦ ÀÔ·ÂÇÏ¸é Á¾·á \n");
+		case 'i':  //ì‚½ì…
+			printf("ìŒìˆ˜ë¥¼ ì…ë ¥í•˜ë©´ ì¢…ë£Œ \n");
 			while (1) {
-				printf("»ğÀÔÅ°°ª:");
+				printf("ì‚½ì…í‚¤ê°’:");
 				scanf("%d", &key);
 				if (key < 0) break;
 				insert_node(key);
 			}
 			break;
-		case 's':  //Å½»ö
-			printf("À½¼ö¸¦ ÀÔ·ÂÇÏ¸é Á¾·á\n");
+		case 's':  //íƒìƒ‰
+			printf("ìŒìˆ˜ë¥¼ ì…ë ¥í•˜ë©´ ì¢…ë£Œ\n");
 			while (1) {
-				printf("Å½»öÅ°°ª:");
+				printf("íƒìƒ‰í‚¤ê°’:");
 				scanf("%d", &key);
 				if (key <0) break;
 				search_node(key);
 			}
 			break;
-		case 'd':  //»èÁ¦
-			printf("À½¼ö¸¦ ÀÔ·ÂÇÏ¸é Á¾·á\n");
+		case 'd':  //ì‚­ì œ
+			printf("ìŒìˆ˜ë¥¼ ì…ë ¥í•˜ë©´ ì¢…ë£Œ\n");
 			while (1) {
-				printf("»èÁ¦Å°°ª:");
+				printf("ì‚­ì œí‚¤ê°’:");
 				scanf("%d", &key);
 				if (key <0) break;
 				delete_node(key);
@@ -78,45 +78,45 @@ void main() {
 	} while (command != 'q');
 
 }
-// »ğÀÔ ÇÔ¼ö
+// ì‚½ì… í•¨ìˆ˜
 void insert_node(int key)
 {
-	int current_adr, parent_adr, new_adr; // current´Â ÇöÀç ³ëµå, parent´Â ºÎ¸ğ ³ëµå 
+	int current_adr, parent_adr, new_adr; // currentëŠ” í˜„ì¬ ë…¸ë“œ, parentëŠ” ë¶€ëª¨ ë…¸ë“œ 
 	struct TreeNode parent, current = { -1, -1, -1 };
 	int *Max_r, Max_l;
 	current_adr = parent_adr = 0; int bal = 0;
 	parent.key = NULL;
 	while (1) {
-		fseek(fp, 10 * current_adr, SEEK_SET);   //10 = Å° 2ÀÚ¸® + °ø¹é1 + ¿ŞÂÊ Æ÷ÀÎÅÍ 2 + °ø¹é1 + ¿À¸¥ÂÊ 2 + CR+LF
+		fseek(fp, 10 * current_adr, SEEK_SET);   //10 = í‚¤ 2ìë¦¬ + ê³µë°±1 + ì™¼ìª½ í¬ì¸í„° 2 + ê³µë°±1 + ì˜¤ë¥¸ìª½ 2 + CR+LF
 		fscanf(fp, "%2d %2d %2d", &current.key, &current.left, &current.right);
 
 		if (key == current.key) {
 			printf("Duplicated Key!\n");
-			return; //ÀÌ¹Ì Á¸ÀçÇÏ´Â Å°°ªÀÌ¸é Á¾·á
+			return; //ì´ë¯¸ ì¡´ì¬í•˜ëŠ” í‚¤ê°’ì´ë©´ ì¢…ë£Œ
 		}
 		if (key < current.key &&  current.left > 0) current_adr = current.left;
 		else if (key > current.key &&  current.right > 0) current_adr = current.right;
-		else break;   //ÀÌ °ÍÀº leaf³ëµå¸¦ ¸¸³µ´Ü ÀÇ¹Ì!
+		else break;   //ì´ ê²ƒì€ leafë…¸ë“œë¥¼ ë§Œë‚¬ë‹¨ ì˜ë¯¸!
 
 	}
-	// ºÎ¸ğ ³ëµå¿Í ¸µÅ© ¿¬°á
+	// ë¶€ëª¨ ë…¸ë“œì™€ ë§í¬ ì—°ê²°
 	parent_adr = current_adr;
 	parent = current;
-	if (parent.key != -1)  //ºÎ¸ğÅ°°ªÀÌ -1ÀÌ¶ó¸é ¾Æ¹«°Íµµ ¾ø´Â ÃÊ±â »óÅÂÀÓ
+	if (parent.key != -1)  //ë¶€ëª¨í‚¤ê°’ì´ -1ì´ë¼ë©´ ì•„ë¬´ê²ƒë„ ì—†ëŠ” ì´ˆê¸° ìƒíƒœì„
 	{
 		fseek(fp, 0, SEEK_END);
-		new_adr = ftell(fp);   //È­ÀÏÀÇ ¸Ç³¡¿¡ »ğÀÔÇÏ°í ÀÌ ÁÖ¼Ò¸¦ ºÎ¸ğ³ëµå¿¡ ³Ñ±ä´Ù
+		new_adr = ftell(fp);   //í™”ì¼ì˜ ë§¨ëì— ì‚½ì…í•˜ê³  ì´ ì£¼ì†Œë¥¼ ë¶€ëª¨ë…¸ë“œì— ë„˜ê¸´ë‹¤
 		fprintf(fp, "%02d %2d %2d\n", key, -1, -1);
 
 		if (key < parent.key) {
-			// 10À¸·Î ³ª´©¾î¼­ Àı´ë ÁÖ¼Ò 
+			// 10ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì„œ ì ˆëŒ€ ì£¼ì†Œ 
 			parent.left = new_adr / 10;
 			fseek(fp, 10 * parent_adr + 3, SEEK_SET);
 			fprintf(fp, "%02d", parent.left);
 			AVL();
 		}
 		else {
-			// 10À¸·Î ³ª´©¾î¼­ Àı´ë ÁÖ¼Ò
+			// 10ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì„œ ì ˆëŒ€ ì£¼ì†Œ
 			parent.right = new_adr / 10;
 			fseek(fp, 10 * parent_adr + 6, SEEK_SET);
 			fprintf(fp, "%02d", parent.right);
@@ -124,12 +124,12 @@ void insert_node(int key)
 		}
 	}
 	else {
-		fseek(fp, 0, SEEK_SET);//        // ÃÖÃÊÀÇ ·çÆ® »ğÀÔ 
-		fprintf(fp, "%02d %2d %2d\n", key, -1, -1); // ÃÖÃÊÀÇ ·çÆ® »ğÀÔ 
+		fseek(fp, 0, SEEK_SET);//        // ìµœì´ˆì˜ ë£¨íŠ¸ ì‚½ì… 
+		fprintf(fp, "%02d %2d %2d\n", key, -1, -1); // ìµœì´ˆì˜ ë£¨íŠ¸ ì‚½ì… 
 		printf("root created!\n");
 	}
 }
-// Å½»ö ÇÔ¼ö
+// íƒìƒ‰ í•¨ìˆ˜
 void search_node(int key)
 {
 	int current_adr;
@@ -152,7 +152,7 @@ void search_node(int key)
 		}
 	}
 }
-// »èÁ¦ ÇÔ¼ö
+// ì‚­ì œ í•¨ìˆ˜
 void delete_node(int key)
 {
 	int current_adr, parent_adr, find_adr, check_adr;
@@ -165,14 +165,14 @@ void delete_node(int key)
 		fseek(fp, 10 * parent_adr, SEEK_SET);
 		fscanf(fp, "%2d %2d %2d", &parent.key, &parent.left, &parent.right);
 
-		// Å½»ö ¿Ï·á
+		// íƒìƒ‰ ì™„ë£Œ
 		if (key == current.key) {
-			// ÀÚ½ÄÀÌ ¾ø´Ù.
+			// ìì‹ì´ ì—†ë‹¤.
 			if (current.left == -1 && current.right == -1) {
 				fseek(fp, 10 * current_adr, SEEK_SET);
-				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // »èÁ¦ Ç¥½Ã
-														// »èÁ¦  ÈÄ Ã³¸®
-														// ºÎ¸ğ¿Í ÀÚ½Ä ¿¬°á ²÷¾îÁÜ
+				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // ì‚­ì œ í‘œì‹œ
+														// ì‚­ì œ  í›„ ì²˜ë¦¬
+														// ë¶€ëª¨ì™€ ìì‹ ì—°ê²° ëŠì–´ì¤Œ
 				if (parent.key > current.key) {
 					fseek(fp, 10 * parent_adr + 3, SEEK_SET);
 					fprintf(fp, "%2d", -1);
@@ -182,12 +182,12 @@ void delete_node(int key)
 					fprintf(fp, "%2d", -1);
 				}
 			}
-			// ÀÚ½ÄÀÌ ÇÏ³ª Á¸ÀçÇÔ
+			// ìì‹ì´ í•˜ë‚˜ ì¡´ì¬í•¨
 			else if (current.left == -1 || current.right == -1) {
 				fseek(fp, 10 * current_adr, SEEK_SET);
-				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // »èÁ¦ Ç¥½Ã
-														// »èÁ¦ ÈÄ Ã³¸®
-														// ºÎ¸ğ¿Í ÀÚ½Ä ¿¬°á ²÷¾îÁÜ ÀÚ½ÄÀÇ ÀÚ½Ä À§Ä¡ °í·Á
+				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // ì‚­ì œ í‘œì‹œ
+														// ì‚­ì œ í›„ ì²˜ë¦¬
+														// ë¶€ëª¨ì™€ ìì‹ ì—°ê²° ëŠì–´ì¤Œ ìì‹ì˜ ìì‹ ìœ„ì¹˜ ê³ ë ¤
 				if (parent.key > current.key && current.right == -1) {
 					fseek(fp, 10 * parent_adr + 3, SEEK_SET);
 					fprintf(fp, "%02d", current.left);
@@ -197,34 +197,34 @@ void delete_node(int key)
 					fprintf(fp, "%02d", current.right);
 				}
 			}
-			// ÀÚ½ÄÀÌ µÑ Á¸ÀçÇÔ
+			// ìì‹ì´ ë‘˜ ì¡´ì¬í•¨
 			else { // current.left > 0 && current.right > 0
 				fseek(fp, 10 * current_adr, SEEK_SET);
-				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // »èÁ¦ Ç¥½Ã
-														// »èÁ¦ ÈÄ Ã³¸® 
-				find_adr = current.right; // ¿À¸¥ÂÊ ÀÚ½ÄÀ¸·Î ÀÌµ¿ 
+				fprintf(fp, "%2d %2d %2d", -1, -1, -1); // ì‚­ì œ í‘œì‹œ
+														// ì‚­ì œ í›„ ì²˜ë¦¬ 
+				find_adr = current.right; // ì˜¤ë¥¸ìª½ ìì‹ìœ¼ë¡œ ì´ë™ 
 				fseek(fp, 10 * find_adr, SEEK_SET);
 				fscanf(fp, "%2d %2d %2d", &find.key, &find.left, &find.right);
 				if ((find.left == -1 && find.right == -1) ||
 					(find.right > 0 && find.left == -1))
-				{ // ¿À¸¥ÂÊ ÀÚ½ÄÀÌ ¾Æ¹« ÀÚ½Äµµ¾øÀ½ ¶Ç´Â ¿À¸¥ÂÊ¿¡ ÀÚ½ÄÀÌ ÀÖÀ½
+				{ // ì˜¤ë¥¸ìª½ ìì‹ì´ ì•„ë¬´ ìì‹ë„ì—†ìŒ ë˜ëŠ” ì˜¤ë¥¸ìª½ì— ìì‹ì´ ìˆìŒ
 					fseek(fp, 10 * find_adr + 3, SEEK_SET);
 					fprintf(fp, "%02d", current.left);
 				}
-				else if (find.left > 0) { // ¿À¸¥ÂÊ ÀÚ½ÄÀÌ ¿ŞÂÊ¿¡ ÀÚ½ÄÀÌ ÀÖÀ½ 
-										  // ¿ŞÂÊ ÀÚ½ÄÁß¿¡ °¡Àå ÀÛÀº ÀÚ½Ä Ã£À½ = ¿ŞÂÊÀ¸·Î ÀÌµ¿ 
+				else if (find.left > 0) { // ì˜¤ë¥¸ìª½ ìì‹ì´ ì™¼ìª½ì— ìì‹ì´ ìˆìŒ 
+										  // ì™¼ìª½ ìì‹ì¤‘ì— ê°€ì¥ ì‘ì€ ìì‹ ì°¾ìŒ = ì™¼ìª½ìœ¼ë¡œ ì´ë™ 
 					while (find.left > 0) {
-						check_adr = find_adr; // °¡Àå ÀÛÀº ÀÚ½ÄÀÇ ºÎ¸ğ ³ëµå ÀúÀå
+						check_adr = find_adr; // ê°€ì¥ ì‘ì€ ìì‹ì˜ ë¶€ëª¨ ë…¸ë“œ ì €ì¥
 						find_adr = find.left;
 						fseek(fp, 10 * find_adr, SEEK_SET);
 						fscanf(fp, "%2d %2d %2d", &find.key, &find.left, &find.right);
 					}
 					fseek(fp, 10 * find_adr + 3, SEEK_SET);
-					// °¡Àå ÀÛÀº ³ëµå Ã£À¸¸é ±× ³ëµå°¡ Áö¿öÁø ³ëµå ÀÚ¸® Â÷ÁöÇÔ
+					// ê°€ì¥ ì‘ì€ ë…¸ë“œ ì°¾ìœ¼ë©´ ê·¸ ë…¸ë“œê°€ ì§€ì›Œì§„ ë…¸ë“œ ìë¦¬ ì°¨ì§€í•¨
 					fprintf(fp, "%02d %02d", current.left, current.right);
 					fseek(fp, 10 * check_adr, SEEK_SET);
 					fscanf(fp, "%2d", &check.key);
-					// ºÎ¸ğ¿Í ÀÚ½Ä ¿¬°á ²÷¾îÁÜ 
+					// ë¶€ëª¨ì™€ ìì‹ ì—°ê²° ëŠì–´ì¤Œ 
 					if (check.key > find.key && find.right > 0) {
 						fseek(fp, 10 * check_adr + 3, SEEK_SET);
 						fprintf(fp, "%02d", find.right);
@@ -234,9 +234,9 @@ void delete_node(int key)
 						fprintf(fp, "%02d", -1);
 					}
 				}
-				// ·çÆ®¸¦ »èÁ¦ÇÒ¶§¸¦ °í·Á 
+				// ë£¨íŠ¸ë¥¼ ì‚­ì œí• ë•Œë¥¼ ê³ ë ¤ 
 				if (current.key != parent.key) {
-					// ºÎ¸ğ¿Í ÀÚ½Ä »õ·Î¿î ¿¬°áÇØÁÜ 
+					// ë¶€ëª¨ì™€ ìì‹ ìƒˆë¡œìš´ ì—°ê²°í•´ì¤Œ 
 					if (parent.key > find.key) {
 						fseek(fp, 10 * parent_adr + 3, SEEK_SET);
 						fprintf(fp, "%02d", find_adr);
@@ -248,13 +248,13 @@ void delete_node(int key)
 				}
 			}
 		}
-		// ºÎ¸ğ³ëµåÀÇ ÁÖ¼Ò¸¦ ÀúÀåÇÒ ÀÓ½Ã º¯¼ö
+		// ë¶€ëª¨ë…¸ë“œì˜ ì£¼ì†Œë¥¼ ì €ì¥í•  ì„ì‹œ ë³€ìˆ˜
 		parent_adr = current_adr;
 		if (key < current.key &&  current.left > 0) current_adr = current.left;
 		else if (key > current.key &&  current.right > 0) current_adr = current.right;
 		else {
 			if (key != current.key) {
-				printf("»èÁ¦ÇÏ°íÀÚÇÏ´Â %d Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", key);
+				printf("ì‚­ì œí•˜ê³ ìí•˜ëŠ” %d ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", key);
 			}
 			break;
 		}
@@ -263,13 +263,13 @@ void delete_node(int key)
 void menu()
 {
 	printf("**************\n");
-	printf("i: ÀÔ·Â\n");
-	printf("d: »èÁ¦\n");
-	printf("s: Å½»ö\n");
-	printf("q: Á¾·á\n");
+	printf("i: ì…ë ¥\n");
+	printf("d: ì‚­ì œ\n");
+	printf("s: íƒìƒ‰\n");
+	printf("q: ì¢…ë£Œ\n");
 	printf("**************\n");
 }
-// Æ®¸®ÀÇ ³ôÀÌ¸¦ ±¸ÇÏ´Â ÇÔ¼ö
+// íŠ¸ë¦¬ì˜ ë†’ì´ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜
 int Get_height(int adr) {
 	int r, l;
 	struct TreeNode height_N = { -1,-1,-1 };
@@ -289,14 +289,14 @@ int Get_height(int adr) {
 		return 0;
 	}
 }
-// ³ëµåÀÇ ±ÕÇü ÀÎ¼ö ¹İÈ¯
+// ë…¸ë“œì˜ ê· í˜• ì¸ìˆ˜ ë°˜í™˜
 int Get_balance(int addr) {
 	struct TreeNode height = { -1, -1, -1 };
 	fseek(fp, 10 * addr, SEEK_SET);
 	fscanf(fp, "%2d %2d %2d", &height.key, &height.left, &height.right);
 	return Get_height(height.left) - Get_height(height.right);
 }
-// RR È¸Àü
+// RR íšŒì „
 void rotate_RR(int addr) {
 	struct TreeNode head, child = { -1,-1,-1 };
 	fseek(fp, 10 * addr, SEEK_SET);
@@ -308,7 +308,7 @@ void rotate_RR(int addr) {
 	fseek(fp, 10 * head.right + 3, SEEK_SET);
 	fprintf(fp, "%02d", addr);
 }
-// LL È¸Àü
+// LL íšŒì „
 void rotate_LL(int addr) {
 	struct TreeNode head, child = { -1,-1,-1 };
 	fseek(fp, 10 * addr, SEEK_SET);
@@ -320,7 +320,7 @@ void rotate_LL(int addr) {
 	fseek(fp, 10 * head.left + 6, SEEK_SET);
 	fprintf(fp, "%02d", addr);
 }
-// RL È¸Àü
+// RL íšŒì „
 void rotate_RL(int addr) {
 	struct TreeNode head, child = { -1,-1,-1 };
 	fseek(fp, 10 * addr, SEEK_SET);
@@ -334,7 +334,7 @@ void rotate_RL(int addr) {
 	printf("addr : %d\n", addr);
 	rotate_RR(addr);
 }
-// LR È¸Àü
+// LR íšŒì „
 void rotate_LR(int addr) {
 	struct TreeNode head, child = { -1, -1, -1 };
 	fseek(fp, 10 * addr, SEEK_SET);
@@ -346,14 +346,14 @@ void rotate_LR(int addr) {
 	fprintf(fp, "%02d", child.right);
 	rotate_LL(addr);
 }
-// ±ÕÇü À¯Áö
+// ê· í˜• ìœ ì§€
 void AVL() {
 	struct TreeNode child = { -1, -1, -1 };
 	struct TreeNode find = { -1, -1, -1 };
 	struct TreeNode check = { -1, -1, -1 };
 	fseek(fp, 10 * root, SEEK_SET);
 	fscanf(fp, "%2d %2d %2d", &child.key, &child.left, &child.right);
-	// ¿ŞÂÊ ¼­ºêÆ®¸®ÀÇ ±ÕÇüÀ» ¸ÂÃá´Ù.
+	// ì™¼ìª½ ì„œë¸ŒíŠ¸ë¦¬ì˜ ê· í˜•ì„ ë§ì¶˜ë‹¤.
 	if (Get_balance(root) > 1) {
 		// LL
 		if (Get_balance(child.left) > 0) {
@@ -361,14 +361,14 @@ void AVL() {
 				fseek(fp, 10 * child.left, SEEK_SET);
 				fscanf(fp, "%2d %2d %2d", &find.key, &find.left, &find.right);
 				rotate_LL(child.left);
-				printf("LL ±ÕÇü À¯Áö\n");
+				printf("LL ê· í˜• ìœ ì§€\n");
 				fseek(fp, 10 * root + 3, SEEK_SET);
 				fprintf(fp, "%02d", find.left);
 			}
 			else {
 				rotate_LL(root);
 				root = child.left;
-				printf("LL ±ÕÇü À¯Áö\n");
+				printf("LL ê· í˜• ìœ ì§€\n");
 			}
 		}
 		// LR
@@ -382,23 +382,23 @@ void AVL() {
 				rotate_RL(child.left);
 				fseek(fp, 10 * root + 3, SEEK_SET);
 				fprintf(fp, "%02d", check.left);
-				printf("RL ±ÕÇü À¯Áö\n");
+				printf("RL ê· í˜• ìœ ì§€\n");
 			}
 			else if (Get_balance(child.left) > 1) {
 				rotate_LR(child.left);
-				printf("LR ±ÕÇü À¯Áö\n");
+				printf("LR ê· í˜• ìœ ì§€\n");
 			}
 			else {
 				fseek(fp, 10 * child.left, SEEK_SET);
 				fscanf(fp, "%2d %2d %2d", &check.key, &check.left, &check.right);
 				rotate_LR(root);
 				root = check.right;
-				printf("LR ±ÕÇü À¯Áö\n");
+				printf("LR ê· í˜• ìœ ì§€\n");
 			}
 		}
 
 	}
-	// ¿À¸¥ÂÊ ¼­ºêÆ®¸®¿¡ ÀÔ·ÂµÈ °æ¿ì
+	// ì˜¤ë¥¸ìª½ ì„œë¸ŒíŠ¸ë¦¬ì— ì…ë ¥ëœ ê²½ìš°
 	else if (Get_balance(root) < -1)
 	{
 		//  RR
@@ -407,14 +407,14 @@ void AVL() {
 				fseek(fp, 10 * child.right, SEEK_SET);
 				fscanf(fp, "%2d %2d %2d", &find.key, &find.left, &find.right);
 				rotate_RR(child.right);
-				printf("RR ±ÕÇü À¯Áö\n");
+				printf("RR ê· í˜• ìœ ì§€\n");
 				fseek(fp, 10 * root + 6, SEEK_SET);
 				fprintf(fp, "%02d", find.right);
 			}
 			else {
 				rotate_RR(root);
 				root = child.right;
-				printf("RR ±ÕÇü À¯Áö\n");
+				printf("RR ê· í˜• ìœ ì§€\n");
 
 			}
 		}
@@ -425,10 +425,10 @@ void AVL() {
 			fscanf(fp, "%2d %2d %2d", &check.key, &check.left, &check.right);
 			rotate_RL(root);
 			root = check.left;
-			printf("RL ±ÕÇü À¯Áö\n");
+			printf("RL ê· í˜• ìœ ì§€\n");
 		}
 	}
 	else {
-		printf("±ÕÇü À¯Áö ¾ÈÇÔ No critical\n");
+		printf("ê· í˜• ìœ ì§€ ì•ˆí•¨ No critical\n");
 	}
 }
