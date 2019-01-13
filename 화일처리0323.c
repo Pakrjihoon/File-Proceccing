@@ -1,4 +1,4 @@
-// Ã¹¹øÂ°--------------------------------------------
+// ì²«ë²ˆì§¸--------------------------------------------
 #include<stdio.h>
 
 
@@ -8,7 +8,7 @@ int main()
 	FILE *fp;
 
 	int i, bit = 0x8000;
-	// ¸¸¾à 4ÀÚ¸® ¹ß»ıÇÏ·Á¸é, 0x8
+	// ë§Œì•½ 4ìë¦¬ ë°œìƒí•˜ë ¤ë©´, 0x8
 	for (i = 0; i < 16; i++){
 		if ((data & bit)){
 			printf("1");
@@ -37,7 +37,7 @@ int main()
 
 ------------------------------------------------------
 
-// µÎ¹øÂ°---------------------------------------------
+// ë‘ë²ˆì§¸---------------------------------------------
 #include<stdio.h>
 
 
@@ -62,7 +62,7 @@ int main()
 
 ------------------------------------------------------
 
-// ¼¼¹øÂ°
+// ì„¸ë²ˆì§¸
 
 #include<stdio.h>
 #define SIZE 5
@@ -75,26 +75,26 @@ int main()
 
 	fp1 = fopen("binary.txt", "rb");
 	if (fp1 == NULL){
-		fprintf(stderr,"ÆÄÀÏ ¿ÀÇÂ ¿À·ù");
+		fprintf(stderr,"íŒŒì¼ ì˜¤í”ˆ ì˜¤ë¥˜");
 	}
 	
 	fp2 = fopen("ascii.txt", "r");
 	if (fp2 == NULL){
-		fprintf(stderr, "ÆÄÀÏ ¿ÀÇÂ ¿À·ù");
+		fprintf(stderr, "íŒŒì¼ ì˜¤í”ˆ ì˜¤ë¥˜");
 	}
 
 	size = fread(buffer, sizeof(int), SIZE, fp1);
 	if (size == NULL){
-		fprintf(stderr, "ÀĞ±â µ¿ÀÛ ¿À·ù");
+		fprintf(stderr, "ì½ê¸° ë™ì‘ ì˜¤ë¥˜");
 		fclose(fp1);
 		return 1;
 	}
-	// binary.txt Ãâ·Â
+	// binary.txt ì¶œë ¥
 	for (i = 0; i < SIZE; i++){
 		printf("%d ", buffer[i]);
 	}
 	printf("\n");
-	// ascii.txt Ãâ·Â
+	// ascii.txt ì¶œë ¥
 	for (i = 0; i < SIZE; i++){
 		fscanf(fp2, "%6d", &read_data);
 		printf("%d ", read_data);
