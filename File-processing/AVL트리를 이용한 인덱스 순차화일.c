@@ -5,7 +5,7 @@
 #include <time.h>
 #define MAX_COLS 32768
 int f_num = 0;
-// ³ëµåÀÇ ±¸Á¶
+// ë…¸ë“œì˜ êµ¬ì¡°
 struct Record {
 	int ID;
 	char name[5];
@@ -41,7 +41,7 @@ struct avl_node {
 
 
 
-// ¿À¸¥ÂÊ È¸Àü ÇÔ¼ö
+// ì˜¤ë¥¸ìª½ íšŒì „ í•¨ìˆ˜
 struct avl_node *
 	rotate_right(struct avl_node *parent)
 {
@@ -50,7 +50,7 @@ struct avl_node *
 	child->right_child = parent;
 	return child;
 }
-// ¿ŞÂÊ È¸Àü ÇÔ¼ö
+// ì™¼ìª½ íšŒì „ í•¨ìˆ˜
 struct avl_node *
 	rotate_left(struct avl_node *parent)
 {
@@ -59,7 +59,7 @@ struct avl_node *
 	child->left_child = parent;
 	return child;
 }
-// ¿À¸¥ÂÊ-¿ŞÂÊ È¸Àü ÇÔ¼ö
+// ì˜¤ë¥¸ìª½-ì™¼ìª½ íšŒì „ í•¨ìˆ˜
 struct avl_node *
 	rotate_right_left(struct avl_node *parent)
 {
@@ -67,7 +67,7 @@ struct avl_node *
 	parent->right_child = rotate_right(child);
 	return rotate_left(parent);
 }
-// ¿ŞÂÊ-¿À¸¥ÂÊ È¸Àü ÇÔ¼ö
+// ì™¼ìª½-ì˜¤ë¥¸ìª½ íšŒì „ í•¨ìˆ˜
 struct avl_node *
 	rotate_left_right(struct avl_node *parent)
 {
@@ -75,7 +75,7 @@ struct avl_node *
 	parent->left_child = rotate_left(child);
 	return rotate_right(parent);
 }
-// Æ®¸®ÀÇ ³ôÀÌ¸¦ ¹İÈ¯
+// íŠ¸ë¦¬ì˜ ë†’ì´ë¥¼ ë°˜í™˜
 int get_height(struct avl_node *node)
 {
 	int height = 0;
@@ -85,14 +85,14 @@ int get_height(struct avl_node *node)
 	return height;
 }
 
-// ³ëµåÀÇ ±ÕÇüÀÎ¼ö¸¦ ¹İÈ¯
+// ë…¸ë“œì˜ ê· í˜•ì¸ìˆ˜ë¥¼ ë°˜í™˜
 int get_height_diff(struct avl_node *node)
 {
 	if (node == NULL) return 0;
 	return get_height(node->left_child) - get_height(node->right_child);
 }
 
-// Æ®¸®¸¦ ±ÕÇüÆ®¸®·Î ¸¸µç´Ù
+// íŠ¸ë¦¬ë¥¼ ê· í˜•íŠ¸ë¦¬ë¡œ ë§Œë“ ë‹¤
 struct avl_node *
 	rebalance(struct avl_node **node)
 {
@@ -112,7 +112,7 @@ struct avl_node *
 	return *node;
 }
 
-// AVL Æ®¸®ÀÇ »ğÀÔ ¿¬»ê
+// AVL íŠ¸ë¦¬ì˜ ì‚½ì… ì—°ì‚°
 struct avl_node *
 	avl_add(struct avl_node **root, int new_key)
 {
@@ -120,7 +120,7 @@ struct avl_node *
 		*root = (struct avl_node *)
 			malloc(sizeof(struct avl_node));
 		if (*root == NULL) {
-			fprintf(stderr, "¸Ş¸ğ¸® ÇÒ´ç ¿¡·¯\n");
+			fprintf(stderr, "ë©”ëª¨ë¦¬ í• ë‹¹ ì—ëŸ¬\n");
 			exit(1);
 		}
 		(*root)->data = new_key;
@@ -136,13 +136,13 @@ struct avl_node *
 		(*root) = rebalance(root);
 	}
 	else {
-		fprintf(stderr, "Áßº¹µÈ Å° ¿¡·¯\n");
+		fprintf(stderr, "ì¤‘ë³µëœ í‚¤ ì—ëŸ¬\n");
 		exit(1);
 	}
 	return *root;
 }
 
-// AVL Æ®¸®ÀÇ Å½»öÇÔ¼ö
+// AVL íŠ¸ë¦¬ì˜ íƒìƒ‰í•¨ìˆ˜
 struct avl_node *avl_search(struct avl_node *node, int key)
 {
 	if (node == NULL) return NULL;
@@ -168,7 +168,7 @@ char* timeToString(struct tm *t);
 char* timeToString(struct tm *t) {
 	static char s[20];
 
-	sprintf(s, "%04d³â%02d¿ù%02dÀÏ %02d½Ã%02dºĞ%02dÃÊ",
+	sprintf(s, "%04dë…„%02dì›”%02dì¼ %02dì‹œ%02dë¶„%02dì´ˆ",
 		t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 		t->tm_hour, t->tm_min, t->tm_sec
 	);
@@ -198,34 +198,34 @@ int main()
 		}
 		if ((fp2 = fopen("tree.txt", "r+")) == NULL) {
 			fp2 = fopen("tree.txt", "w+");
-			fprintf(fp2, "%3d ", -1); // ÃÊ±âÈ­ 
+			fprintf(fp2, "%3d ", -1); // ì´ˆê¸°í™” 
 		}
 		struct tm *t;
 		time_t timer;
 
-		timer = time(NULL);    // ÇöÀç ½Ã°¢À» ÃÊ ´ÜÀ§·Î ¾ò±â
-		t = localtime(&timer); // ÃÊ ´ÜÀ§ÀÇ ½Ã°£À» ºĞ¸®ÇÏ¿© ±¸Á¶Ã¼¿¡ ³Ö±â
+		timer = time(NULL);    // í˜„ì¬ ì‹œê°ì„ ì´ˆ ë‹¨ìœ„ë¡œ ì–»ê¸°
+		t = localtime(&timer); // ì´ˆ ë‹¨ìœ„ì˜ ì‹œê°„ì„ ë¶„ë¦¬í•˜ì—¬ êµ¬ì¡°ì²´ì— ë„£ê¸°
 		term_m();
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-		printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t½ÃÀÛ ½Ã°£ : %s\n", timeToString(t));
+		printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tì‹œì‘ ì‹œê°„ : %s\n", timeToString(t));
 		menu();
 		scanf("%c", &command);
-		printf("\n\t\t\t¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬\n\n");
+		printf("\n\t\t\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”\n\n");
 		system("cls");
 		switch (command) {
 		case '1':
 			root = NULL;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-			printf("\t\t\t¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\tÇĞ»ı Á¤º¸¸¦ »ğÀÔÇÏ´Â ¸ğµåÀÔ´Ï´Ù.\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\tÀ½¼ö¸¦ ÀÔ·ÂÇÏ¸é Á¾·áÇÕ´Ï´Ù.\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\n\n");
+			printf("\t\t\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\tí•™ìƒ ì •ë³´ë¥¼ ì‚½ì…í•˜ëŠ” ëª¨ë“œì…ë‹ˆë‹¤.\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\tìŒìˆ˜ë¥¼ ì…ë ¥í•˜ë©´ ì¢…ë£Œí•©ë‹ˆë‹¤.\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n\n");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			printf("\t\t\t\t------- ÇĞ»ıÀÇ Á¤º¸´Â ´ÙÀ½°ú °°½À´Ï´Ù -------\n ");
-			printf("\t\t\t\t¾ÆÀÌµğ(3ÀÚ¸®Á¤¼ö±îÁö) ÀÌ¸§(5ÀÚ¸®±îÁö) ³ªÀÌ(3ÀÚ¸®Á¤¼ö±îÁö)\n\n");
-			printf("\t\t\t\tID ÀÌ¸§ ³ªÀÌ¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			printf("\t\t\t\t------- í•™ìƒì˜ ì •ë³´ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤ -------\n ");
+			printf("\t\t\t\tì•„ì´ë””(3ìë¦¬ì •ìˆ˜ê¹Œì§€) ì´ë¦„(5ìë¦¬ê¹Œì§€) ë‚˜ì´(3ìë¦¬ì •ìˆ˜ê¹Œì§€)\n\n");
+			printf("\t\t\t\tID ì´ë¦„ ë‚˜ì´ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			insert_record(fp);
 			insert_record2(fp2);
 			fclose(fp);
@@ -242,12 +242,12 @@ int main()
 
 		case '2':
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
-			printf("\t\t\t¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\tÇĞ»ı Á¤º¸¸¦ ¼öÁ¤ÇÏ´Â ¸ğµåÀÔ´Ï´Ù.\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t   ÀÔ·ÂÀ» ¿Ï·áÇÏ¸é Á¾·áÇÕ´Ï´Ù.\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\n\n");
+			printf("\t\t\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\tí•™ìƒ ì •ë³´ë¥¼ ìˆ˜ì •í•˜ëŠ” ëª¨ë“œì…ë‹ˆë‹¤.\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t   ì…ë ¥ì„ ì™„ë£Œí•˜ë©´ ì¢…ë£Œí•©ë‹ˆë‹¤.\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n\n");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			change_record(fp);
 			change_record2(fp2);
@@ -257,12 +257,12 @@ int main()
 
 		case '3':
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-			printf("\t\t\t¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\tÇĞ»ı Á¤º¸¸¦ »èÁ¦ÇÏ´Â ¸ğµåÀÔ´Ï´Ù.\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t   ÀÔ·ÂÀ» ¿Ï·áÇÏ¸é Á¾·áÇÕ´Ï´Ù.\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\n\n");
+			printf("\t\t\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\tí•™ìƒ ì •ë³´ë¥¼ ì‚­ì œí•˜ëŠ” ëª¨ë“œì…ë‹ˆë‹¤.\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t   ì…ë ¥ì„ ì™„ë£Œí•˜ë©´ ì¢…ë£Œí•©ë‹ˆë‹¤.\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n\n");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			delete_record(fp);
 			delete_node2(fp2);
@@ -272,63 +272,63 @@ int main()
 
 		case '4':
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-			printf("\t\t\t¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\tÇĞ»ı Á¤º¸¸¦ Å½»öÇÏ´Â ¸ğµåÀÔ´Ï´Ù.\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t   ÀÔ·ÂÀ» ¿Ï·áÇÏ¸é Á¾·áÇÕ´Ï´Ù.\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t    ¦­\n");
-			printf("\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\n\n");
+			printf("\t\t\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\tí•™ìƒ ì •ë³´ë¥¼ íƒìƒ‰í•˜ëŠ” ëª¨ë“œì…ë‹ˆë‹¤.\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t   ì…ë ¥ì„ ì™„ë£Œí•˜ë©´ ì¢…ë£Œí•©ë‹ˆë‹¤.\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t    â”ƒ\n");
+			printf("\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n\n");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			printf("\t\t\t\tÅ½»öÇÒ ÇĞ»ıÀÇ Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ex) 1\n\n");
-			printf("\t\t\t\t---- ÇĞ»ıÀÇ ID¸¦ ÀÔ·ÂÇÏ½Ã¸é µË´Ï´Ù. ----\n\n");
+			printf("\t\t\t\tíƒìƒ‰í•  í•™ìƒì˜ ì •ë³´ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ex) 1\n\n");
+			printf("\t\t\t\t---- í•™ìƒì˜ IDë¥¼ ì…ë ¥í•˜ì‹œë©´ ë©ë‹ˆë‹¤. ----\n\n");
 			printf("\t\t\t\t--> ");
 			search_record(fp);
 			search_node2(fp2);
 			printf("\n\n\n\n");
-			printf("\t\t\t\t\t\t5ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+			printf("\t\t\t\t\t\t5ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 			Sleep(900);
-			printf("\t\t\t\t\t\t4ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+			printf("\t\t\t\t\t\t4ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 			Sleep(900);
-			printf("\t\t\t\t\t\t3ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+			printf("\t\t\t\t\t\t3ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 			Sleep(900);
-			printf("\t\t\t\t\t\t2ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+			printf("\t\t\t\t\t\t2ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 			Sleep(900);
-			printf("\t\t\t\t\t\t1ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+			printf("\t\t\t\t\t\t1ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 			Sleep(500);
 			fclose(fp);
 			fclose(fp2);
 			break;
 
 		case '5':
-			printf("\n\t\t\t\t\t********* ÀÔ·Â ¹ŞÀº ¼ø¼­ *********\n");
+			printf("\n\t\t\t\t\t********* ì…ë ¥ ë°›ì€ ìˆœì„œ *********\n");
 			printf("\n\n\t\t\t\t");
 			record_printf(fp);
 			printf("\n\n");
 			printf("\n\n\t\t\t\t\t******* Studen Information ******* \n\n");
-			printf("\t\t\t\t\t\tID   ÀÌ¸§ ³ªÀÌ ¸µÅ©ÇÊµå \n");
+			printf("\t\t\t\t\t\tID   ì´ë¦„ ë‚˜ì´ ë§í¬í•„ë“œ \n");
 			if ((fp = fopen("sequential.txt", "rt")) == NULL) {
 				fputs("Cannot open input file...\n", stderr);
-				exit(1); // ¸ğµç ÆÄÀÏ ´İ°í, ÇÁ·Î±×·¥ Á¾·á
+				exit(1); // ëª¨ë“  íŒŒì¼ ë‹«ê³ , í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 			}
 
-			// ÀĞ±â ½ÃÀÛ: ÇÁ·Î±×·¥ÀÇ º»Ã¼
+			// ì½ê¸° ì‹œì‘: í”„ë¡œê·¸ë¨ì˜ ë³¸ì²´
 			while (fgets(s, MAX_COLS, fp) != NULL) {
 				printf("\n\n\t\t\t\t\t\t");
-				printf(s); // ÇÑ ÁÙ¾¿ È­¸é¿¡ Ãâ·Â
+				printf(s); // í•œ ì¤„ì”© í™”ë©´ì— ì¶œë ¥
 			}
 
-			fcloseall(); // ¸ğµç ÆÄÀÏ ´İ±â
+			fcloseall(); // ëª¨ë“  íŒŒì¼ ë‹«ê¸°
 			printf("\n\n\t\t\t\t\t");
-			printf("ÇĞ»ıÀÇ Á¤º¸´Â 10ÃÊ µ¿¾È Ãâ·ÂµË´Ï´Ù.\n\n");
+			printf("í•™ìƒì˜ ì •ë³´ëŠ” 10ì´ˆ ë™ì•ˆ ì¶œë ¥ë©ë‹ˆë‹¤.\n\n");
 			Sleep(5000);
 			printf("\t\t\t\t\t");
-			printf("ÇĞ»ıÀÇ Á¤º¸´Â 5ÃÊ µ¿¾È Ãâ·ÂµË´Ï´Ù.\n\n");
-			printf("\t\t\t\t\tÃâ·Â ÈÄ¿¡´Â ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.");
+			printf("í•™ìƒì˜ ì •ë³´ëŠ” 5ì´ˆ ë™ì•ˆ ì¶œë ¥ë©ë‹ˆë‹¤.\n\n");
+			printf("\t\t\t\t\tì¶œë ¥ í›„ì—ëŠ” ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 			Sleep(5000);
 
 			break;
 		case '6':
-			printf("\t\t\t\t****** Æ®¸®·Î ±¸Á¶¿Í ³»¿ëÀ» ³ªÅ¸³À´Ï´Ù. ******");
+			printf("\t\t\t\t****** íŠ¸ë¦¬ë¡œ êµ¬ì¡°ì™€ ë‚´ìš©ì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. ******");
 			break;
 		case '7':
 			//fseek(fp2, 0, SEEK_SET);
@@ -337,10 +337,10 @@ int main()
 			printf("%d", get_height_diff(fp2));
 			break;
 		case 'q':
-			printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù. \n\n\n\t\t\t\t\t\t");
+			printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tí”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤. \n\n\n\t\t\t\t\t\t");
 			break;
 		default:
-			printf("\t\t\t\t°ªÀ» ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. 1~6±îÁö¸¸ ÇØ´çµË´Ï´Ù. (³ª°¡±â´Â 'Q')\n\n");
+			printf("\t\t\t\tê°’ì„ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”. 1~6ê¹Œì§€ë§Œ í•´ë‹¹ë©ë‹ˆë‹¤. (ë‚˜ê°€ê¸°ëŠ” 'Q')\n\n");
 			break;
 		}
 	} while (command != 'q');
@@ -354,7 +354,7 @@ void insert_record(FILE *fp)
 	//   fprintf(fp, "%03d %5s %03d 00\n", record.ID, record.name, record.age);
 	//}
 	int current_id;
-	printf("Àß¸ø µé¾î¿À¼Ì´Ù¸é -1 -1 -1À» ÀÔ·ÂÇØÁÖ¼¼¿ä\n\n");
+	printf("ì˜ëª» ë“¤ì–´ì˜¤ì…¨ë‹¤ë©´ -1 -1 -1ì„ ì…ë ¥í•´ì£¼ì„¸ìš”\n\n");
 	printf("\t\t\t\t--> ");
 	scanf("%d %s %d", &record.ID, record.name, &record.age);
 	record2 = record;
@@ -378,8 +378,8 @@ void insert_record(FILE *fp)
 
 				if (find == record.ID) {
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-					printf("\n\n\t\t\t\t°°Àº ID°¡ ÀÖ½À´Ï´Ù. ´Ù½Ã ÀÔ·Â ÇÏ¼¼¿ä\n");
-					printf("\n\t\t\t\t\tÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù. ");
+					printf("\n\n\t\t\t\tê°™ì€ IDê°€ ìˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥ í•˜ì„¸ìš”\n");
+					printf("\n\t\t\t\t\tì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤. ");
 					overlap = 1;
 					break;
 				}
@@ -418,7 +418,7 @@ void insert_record(FILE *fp)
 
 void insert_record2(FILE *fp2)
 {
-	int current_adr, parent_adr, new_adr;//ÀÚ½ÄÀº ÇöÀç, ºÎ¸ğ´Â ºÎ¸ğ³ëµå
+	int current_adr, parent_adr, new_adr;//ìì‹ì€ í˜„ì¬, ë¶€ëª¨ëŠ” ë¶€ëª¨ë…¸ë“œ
 	struct Record parent, current = { -1, " ", -1, -1, -1 };
 	current_adr = parent_adr = 0;
 	parent.ID = NULL;
@@ -478,7 +478,7 @@ void change_record(FILE *fp) {
 	int now_index;
 	int i = 0;
 
-	printf("\t\t\t¼öÁ¤ ÇÏ°íÀÚ ÇÏ´Â ID¸¦ ÀÔ·Â ÇÏ¼¼¿ä \n\n\t\t\t--> ");
+	printf("\t\t\tìˆ˜ì • í•˜ê³ ì í•˜ëŠ” IDë¥¼ ì…ë ¥ í•˜ì„¸ìš” \n\n\t\t\t--> ");
 	scanf("%3d", &find_id);
 	record2.ID = find_id;
 
@@ -488,14 +488,14 @@ void change_record(FILE *fp) {
 		fseek(fp, 10, SEEK_CUR);
 		fscanf(fp, "%02d", &now_index);
 		if (now_index == -1) {
-			printf("»èÁ¦µÈ ID ÀÔ´Ï´Ù");
+			printf("ì‚­ì œëœ ID ì…ë‹ˆë‹¤");
 			break;
 		}
 		if (now_id == find_id) {
 			fseek(fp, -6, SEEK_CUR);
 			fscanf(fp, "%03d", &now_age);
-			printf("\n\t\t\t\tÇöÀç ³ªÀÌ : %d\n", now_age);
-			printf("\t\t\t ¼öÁ¤ÇÏ°íÀÚ ÇÏ´Â ³ªÀÌ¸¦ ÀÔ·Â ÇÏ¼¼¿ä\n\n\t\t\t--> ");
+			printf("\n\t\t\t\tí˜„ì¬ ë‚˜ì´ : %d\n", now_age);
+			printf("\t\t\t ìˆ˜ì •í•˜ê³ ì í•˜ëŠ” ë‚˜ì´ë¥¼ ì…ë ¥ í•˜ì„¸ìš”\n\n\t\t\t--> ");
 			scanf("%d", &change_age);
 			record2.link = change_age;
 
@@ -506,16 +506,16 @@ void change_record(FILE *fp) {
 		}
 	}
 	fclose(fp);
-	printf("\n\n\n\t\t\t\t\t\t¼öÁ¤ ¿Ï·á! \n\n");
-	printf("\t\t\t\t\t\t5ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\n\n\n\t\t\t\t\t\tìˆ˜ì • ì™„ë£Œ! \n\n");
+	printf("\t\t\t\t\t\t5ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t4ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t4ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t3ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t3ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t2ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t2ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t1ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t1ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(500);
 
 }
@@ -538,7 +538,7 @@ void change_record2(FILE *fp2) {
 		if (record2.ID < current.ID &&  current.left > 0) current_adr = current.left;
 		else if (record2.ID > current.ID &&  current.right > 0) current_adr = current.right;
 		else {
-			printf("\t\t\t\t»èÁ¦µÈ ID ÀÔ´Ï´Ù.");
+			printf("\t\t\t\tì‚­ì œëœ ID ì…ë‹ˆë‹¤.");
 			break;
 		}
 	}
@@ -547,55 +547,55 @@ void change_record2(FILE *fp2) {
 
 void menu() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-	printf("\t*****************\t¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯\t\t*******************\n");
+	printf("\t*****************\tâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\t\t*******************\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
-	printf("\t* ´ã´ç±³¼ö \t*\t¦­  ¦®¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¯¦­\t\t*   Developed by  *\n");
+	printf("\t* ë‹´ë‹¹êµìˆ˜ \t*\tâ”ƒ  â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“â”ƒ\t\t*   Developed by  *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	printf("\t* ÀÌÇØ°¢ ±³¼ö´Ô *\t¦­  ¦­\t\t\t\t\t        ¦­¦­\t\t* ÄÄÇ»ÅÍ °øÇĞ°ú   *\n");
+	printf("\t* ì´í•´ê° êµìˆ˜ë‹˜ *\tâ”ƒ  â”ƒ\t\t\t\t\t        â”ƒâ”ƒ\t\t* ì»´í“¨í„° ê³µí•™ê³¼   *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-	printf("\t*****************\t¦­  ¦­     File Processing Term Project         ¦­¦­\t\t* 20134103 ÀÌ»ó¼ö *\n");
+	printf("\t*****************\tâ”ƒ  â”ƒ     File Processing Term Project         â”ƒâ”ƒ\t\t* 20134103 ì´ìƒìˆ˜ *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	printf("\t\t\t\t¦­  ¦­                                          ¦­¦­\t\t* 20134087 ÀÌ¿µÀç *\n");
+	printf("\t\t\t\tâ”ƒ  â”ƒ                                          â”ƒâ”ƒ\t\t* 20134087 ì´ì˜ì¬ *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
-	printf("\t\t\t\t¦­  ¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°¦­\t\t* 20134080 ±èÅÃÀ± *\n");
+	printf("\t\t\t\tâ”ƒ  â”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›â”ƒ\t\t* 20134080 ê¹€íƒìœ¤ *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	printf("\t\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\t\t* 20134069 ¹ÚÁöÈÆ *\n");
+	printf("\t\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\t\t* 20134069 ë°•ì§€í›ˆ *\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 	printf("\t\t\t\t\t\t\t\t\t\t\t\t*******************\n\n\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-	printf("\t\t\t¦®¦¬¦¬¦¬¦¬¦¬");
+	printf("\t\t\tâ”â”â”â”â”â”");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 159);
-	printf(" ·¹ÄÚµå¿¡ ´ëÇÑ ¼øÂ÷Å½»ö°ú Á÷Á¢Å½»ö ¸ğµÎ °¡´ÉÇÑ ÀÎµ¦½º ¼øÂ÷È­ÀÏ  ");
+	printf(" ë ˆì½”ë“œì— ëŒ€í•œ ìˆœì°¨íƒìƒ‰ê³¼ ì§ì ‘íƒìƒ‰ ëª¨ë‘ ê°€ëŠ¥í•œ ì¸ë±ìŠ¤ ìˆœì°¨í™”ì¼  ");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-	printf("¦¬¦¬¦¬¦¬¦¬¦¯\n ");
-	printf("\t\t        ¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­");
-	printf("\t\n\t\t        ¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­");
-	printf("\t\n\t\t\t¦­\t\t1. ÇĞ»ı Á¤º¸ »ğÀÔ  2. ÇĞ»ı Á¤º¸ ¼öÁ¤ 3. ÇĞ»ı Á¤º¸ »èÁ¦\t\t\t      ¦­ \n");
-	printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­\n");
-	printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­");
-	printf("\t\n\t\t\t¦­\t4. ÇĞ»ı Á¤º¸ Å½»ö    5. ÀüÃ¼ ÇĞ»ı Ãâ·Â   6. ÇĞ»ı Æ®¸®ÀüÃ¼ ±¸Á¶ ¹× Á¤º¸\t      ¦­\n ");
-	printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­\n");
-	printf("\t\t\t¦­\t\t\t\t\t\t\t\t\t\t\t      ¦­\n");
-	printf("\t\t\t¦±¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦°\n\n");
+	printf("â”â”â”â”â”â”“\n ");
+	printf("\t\t        â”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ");
+	printf("\t\n\t\t        â”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ");
+	printf("\t\n\t\t\tâ”ƒ\t\t1. í•™ìƒ ì •ë³´ ì‚½ì…  2. í•™ìƒ ì •ë³´ ìˆ˜ì • 3. í•™ìƒ ì •ë³´ ì‚­ì œ\t\t\t      â”ƒ \n");
+	printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ\n");
+	printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ");
+	printf("\t\n\t\t\tâ”ƒ\t4. í•™ìƒ ì •ë³´ íƒìƒ‰    5. ì „ì²´ í•™ìƒ ì¶œë ¥   6. í•™ìƒ íŠ¸ë¦¬ì „ì²´ êµ¬ì¡° ë° ì •ë³´\t      â”ƒ\n ");
+	printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ\n");
+	printf("\t\t\tâ”ƒ\t\t\t\t\t\t\t\t\t\t\t      â”ƒ\n");
+	printf("\t\t\tâ”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	printf("\t\t\t\t¿øÇÏ½Ã´Â ¸ğµå¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
+	printf("\t\t\t\tì›í•˜ì‹œëŠ” ëª¨ë“œë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 }
 void term_m()
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	printf("\n\n     ¡á¡á¡á¡á     ¡á¡á¡á     ¡á¡á¡á    ¡á          ¡á\n");
-	printf("\t¡á        ¡á         ¡á  ¡á    ¡á¡á      ¡á¡á\n");
-	printf("\t¡á        ¡á¡á¡á     ¡á¡á¡á    ¡á  ¡á   ¡á ¡á\n");
-	printf("\t¡á        ¡á         ¡á ¡á     ¡á   ¡á ¡á  ¡á\n");
-	printf("\t¡á        ¡á¡á¡á     ¡á   ¡á   ¡á     ¡á   ¡á\n\n\n");
+	printf("\n\n     â– â– â– â–      â– â– â–      â– â– â–     â–           â– \n");
+	printf("\tâ–         â–          â–   â–     â– â–       â– â– \n");
+	printf("\tâ–         â– â– â–      â– â– â–     â–   â–    â–  â– \n");
+	printf("\tâ–         â–          â–  â–      â–    â–  â–   â– \n");
+	printf("\tâ–         â– â– â–      â–    â–    â–      â–    â– \n\n\n");
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-	printf("\t\t\t\t¡á¡á¡á    ¡á¡á¡á    ¡á¡á¡á¡á    ¡á¡á¡á       ¡á¡á    ¡á¡á¡á¡á\n");
-	printf("\t\t\t\t¡á  ¡á    ¡á  ¡á       ¡á       ¡á         ¡á           ¡á\n");
-	printf("\t\t\t\t¡á¡á¡á    ¡á¡á¡á       ¡á       ¡á¡á¡á     ¡á           ¡á\n");
-	printf("\t\t\t\t¡á        ¡á ¡á     ¡á ¡á       ¡á         ¡á           ¡á\n");
-	printf("\t\t\t\t¡á        ¡á   ¡á     ¡á        ¡á¡á¡á       ¡á¡á       ¡á\n\n");
+	printf("\t\t\t\tâ– â– â–     â– â– â–     â– â– â– â–     â– â– â–        â– â–     â– â– â– â– \n");
+	printf("\t\t\t\tâ–   â–     â–   â–        â–        â–          â–            â– \n");
+	printf("\t\t\t\tâ– â– â–     â– â– â–        â–        â– â– â–      â–            â– \n");
+	printf("\t\t\t\tâ–         â–  â–      â–  â–        â–          â–            â– \n");
+	printf("\t\t\t\tâ–         â–    â–      â–         â– â– â–        â– â–        â– \n\n");
 
 }
 
@@ -604,7 +604,7 @@ void term_m()
 
 
 
-//¿µÀç---------------------------------------
+//ì˜ì¬---------------------------------------
 
 void search_record(FILE *fp)
 {
@@ -625,7 +625,7 @@ void search_record(FILE *fp)
 		if (num == search_id)
 		{
 
-			printf("%03d ÇĞ»ıÀÇ Á¤º¸¸¦ Ã£¾Ò½À´Ï´Ù. ", num);
+			printf("%03d í•™ìƒì˜ ì •ë³´ë¥¼ ì°¾ì•˜ìŠµë‹ˆë‹¤. ", num);
 			break;
 
 		}
@@ -642,7 +642,7 @@ void search_record(FILE *fp)
 	} while (index != 99);
 	if (index == 99)
 	{
-		printf("Å½»ö °á°ú°¡ ¾ø½À´Ï´Ù \n");
+		printf("íƒìƒ‰ ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤ \n");
 	}
 
 }
@@ -659,7 +659,7 @@ int search_node2(FILE *fp2)
 		fscanf(fp2, "%3d %5s %3d %2d %2d\n", &current.ID, current.name, &current.age, &current.left, &current.right);
 
 		if (record2.ID == current.ID) {
-			printf("%03d Ã£¾Ò½À´Ï´Ù.\n", current.ID);
+			printf("%03d ì°¾ì•˜ìŠµë‹ˆë‹¤.\n", current.ID);
 
 			return 0;
 		}
@@ -667,7 +667,7 @@ int search_node2(FILE *fp2)
 		if (record2.ID < current.ID &&  current.left > 0) current_adr = current.left;
 		else if (record2.ID > current.ID &&  current.right > 0) current_adr = current.right;
 		else {
-			printf(" Å½»ö °á°ú°¡ ¾ø½À´Ï´Ù!\n", record2.ID);
+			printf(" íƒìƒ‰ ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤!\n", record2.ID);
 
 			break;
 		}
@@ -684,7 +684,7 @@ void delete_record(FILE *fp)
 	int check_c = -1;
 	int flag = 0;
 
-	printf("\t\t\t»èÁ¦ ÇÏ°íÀÚ ÇÏ´Â ID¸¦ ÀÔ·Â ÇÏ¼¼¿ä \n\n\t\t\t--> ");
+	printf("\t\t\tì‚­ì œ í•˜ê³ ì í•˜ëŠ” IDë¥¼ ì…ë ¥ í•˜ì„¸ìš” \n\n\t\t\t--> ");
 	scanf("%d", &search_id);
 	record2.ID = search_id;
 	fseek(fp, 0, SEEK_SET);
@@ -695,7 +695,7 @@ void delete_record(FILE *fp)
 		{
 			if (prev_index == -1)
 			{
-				printf("\t\t\t\troot ³ëµå¸¦ »èÁ¦ ÇÕ´Ï´Ù");
+				printf("\t\t\t\troot ë…¸ë“œë¥¼ ì‚­ì œ í•©ë‹ˆë‹¤");
 				fseek(fp, 11, SEEK_CUR);
 				fprintf(fp, "%02d", remove);
 				break;
@@ -737,16 +737,16 @@ void delete_record(FILE *fp)
 	} while (1);
 
 
-	printf("\t\t\t\t»èÁ¦ ¿Ï·á !\n\n");
-	printf("\t\t\t\t\t\t5ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\tì‚­ì œ ì™„ë£Œ !\n\n");
+	printf("\t\t\t\t\t\t5ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t4ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t4ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t3ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t3ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t2ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t2ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(900);
-	printf("\t\t\t\t\t\t1ÃÊ ÈÄ¿¡ ÃÊ±â È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.\n\n");
+	printf("\t\t\t\t\t\t1ì´ˆ í›„ì— ì´ˆê¸° í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n\n");
 	Sleep(500);
 }
 void delete_node2(FILE *fp2)
