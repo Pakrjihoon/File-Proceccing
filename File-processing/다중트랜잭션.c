@@ -1,17 +1,17 @@
 #include < stdio.h>
 #include < string.h >
-#define SENTINEL 100 //È­ÀÏÀÇ ³¡À» ¾Ë¸®´Â Æ¯¼ö Å°°ª
+#define SENTINEL 100 //í™”ì¼ì˜ ëì„ ì•Œë¦¬ëŠ” íŠ¹ìˆ˜ í‚¤ê°’
 #define FALSE 0 
 #define TRUE 1
 
-//±¸¸¶½ºÅÍ ·¹ÄÚµå ±¸Á¶Ã¼
+//êµ¬ë§ˆìŠ¤í„° ë ˆì½”ë“œ êµ¬ì¡°ì²´
 struct product_rec {
 	int id;
 	char name[20];
 	int inventory;
 };
 
-//°»½Å·¹ÄÚµå ±¸Á¶Ã¼
+//ê°±ì‹ ë ˆì½”ë“œ êµ¬ì¡°ì²´
 struct update_rec {
 	char update_code;
 	int id;
@@ -19,59 +19,59 @@ struct update_rec {
 	int inventory;
 };
 
-//Àü¿ªº¯¼ö ¼±¾ğ
+//ì „ì—­ë³€ìˆ˜ ì„ ì–¸
 
 FILE *old_master, *transaction, *new_master, *report;
-struct product_rec old_rec; //±¸¸¶½ºÅÍ ·¹ÄÚµå ¼±¾ğ
-struct update_rec trans_rec; //Æ®·£Àè¼Ç ·¹ÄÚµå ¼±¾ğ
+struct product_rec old_rec; //êµ¬ë§ˆìŠ¤í„° ë ˆì½”ë“œ ì„ ì–¸
+struct update_rec trans_rec; //íŠ¸ëœì­ì…˜ ë ˆì½”ë“œ ì„ ì–¸
 int add_cnt = 0, change_cnt = 0, delete_cnt = 0, error_cnt = 0;
 int delete_record; int new_id; int im_inventory; char im_name[20]; int im_id;
 
-//ÇÔ¼ö Á¤ÀÇ 
-void Get_Old() //Old Master È­ÀÏ¿¡¼­ ÀĞ¾î¿À±â
+//í•¨ìˆ˜ ì •ì˜ 
+void Get_Old() //Old Master í™”ì¼ì—ì„œ ì½ì–´ì˜¤ê¸°
 {
 	fscanf(old_master, "\n%d %s %d", &old_rec.id, old_rec.name, &old_rec.inventory);
 }
 
-void Get_Transaction() //Transaction È­ÀÏ¿¡¼­ ÀĞ¾î¿À±â
+void Get_Transaction() //Transaction í™”ì¼ì—ì„œ ì½ì–´ì˜¤ê¸°
 {
 	fscanf(transaction, "\n%c %d %s %d", &trans_rec.update_code, &trans_rec.id, trans_rec.name, &trans_rec.inventory);
 }
 
-void Put_Old_To_New() //Old Master ·¹ÄÚµå¸¦ ±×´ë·Î New Master ¿¡ Ãâ·Â
+void Put_Old_To_New() //Old Master ë ˆì½”ë“œë¥¼ ê·¸ëŒ€ë¡œ New Master ì— ì¶œë ¥
 {
 	fprintf(new_master, "%d %s %d\n", old_rec.id, old_rec.name, old_rec.inventory);
 }
 
-void Put_Transaction_To_New() // Transaction ·¹ÄÚµå¸¦ ±×´ë·Î New Master ¿¡ Ãâ·Â
+void Put_Transaction_To_New() // Transaction ë ˆì½”ë“œë¥¼ ê·¸ëŒ€ë¡œ New Master ì— ì¶œë ¥
 {
 	fprintf(new_master, "%d %s %d\n", trans_rec.id, trans_rec.name, trans_rec.inventory);
 }
 
-void Put_newrecord_To_New() // »õ·Î¸¸µç ·¹ÄÚµå¸¦ New Master¿¡ Ãâ·Â
+void Put_newrecord_To_New() // ìƒˆë¡œë§Œë“  ë ˆì½”ë“œë¥¼ New Masterì— ì¶œë ¥
 {
 	fprintf(new_master, "%d %s %d\n", im_id, im_name, im_inventory);
 }
 
 
-void Error_Print(char err_code) //¿À·ù³»¿ë Ãâ·Â 
+void Error_Print(char err_code) //ì˜¤ë¥˜ë‚´ìš© ì¶œë ¥ 
 {
 	switch (err_code)
 	{
 	case 'A':
-		fprintf(report, "%c %d %s %d : Ãß°¡¿À·ù\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
+		fprintf(report, "%c %d %s %d : ì¶”ê°€ì˜¤ë¥˜\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
 		break;
 	case 'C':
-		fprintf(report, "%c %d %s %d : ÇØ´ç ·¹ÄÚµå ¾øÀ½\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
+		fprintf(report, "%c %d %s %d : í•´ë‹¹ ë ˆì½”ë“œ ì—†ìŒ\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
 		break;
 	case 'E':
-		fprintf(report, "%c %d %s %d : °»½ÅÄÚµå¿À·ù\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
+		fprintf(report, "%c %d %s %d : ê°±ì‹ ì½”ë“œì˜¤ë¥˜\n", trans_rec.update_code, trans_rec.id, trans_rec.name, trans_rec.inventory);
 		break;
 	}
 }
 
 
-//¸ŞÀÎÇÔ¼ö ½ÃÀÛ
+//ë©”ì¸í•¨ìˆ˜ ì‹œì‘
 int main(void)
 {
 	old_master = fopen("oldmaster.txt", "r");
@@ -79,11 +79,11 @@ int main(void)
 	new_master = fopen("newmaster.txt", "w");
 	report = fopen("report.txt", "w");
 
-	// Ã¹ ·¹ÄÚµå ÀĞ±â
+	// ì²« ë ˆì½”ë“œ ì½ê¸°
 	Get_Old();
 	Get_Transaction();
 
-	//¼¾Æ¼³ÎÀ» ¸¸³¯ ¶§±îÁö ¹İº¹ ¼öÇà
+	//ì„¼í‹°ë„ì„ ë§Œë‚  ë•Œê¹Œì§€ ë°˜ë³µ ìˆ˜í–‰
 	while (!(old_rec.id == SENTINEL || trans_rec.id == SENTINEL))
 	{
 		if (old_rec.id < trans_rec.id)
@@ -116,15 +116,15 @@ int main(void)
 				break;
 			}
 		}
-		else	// old_rec.id > trans_rec.id ÀÇ °æ¿ì¸¦ ÀÇ¹ÌÇÔ. »ğÀÔ('A') ¾Æ´Ï¸é ¸ğµÎ ¿¡·¯Ã³¸®;
+		else	// old_rec.id > trans_rec.id ì˜ ê²½ìš°ë¥¼ ì˜ë¯¸í•¨. ì‚½ì…('A') ì•„ë‹ˆë©´ ëª¨ë‘ ì—ëŸ¬ì²˜ë¦¬;
 		{
 			switch (trans_rec.update_code)
 			{
 			case 'A':
 				im_inventory = trans_rec.inventory;
 				im_id = trans_rec.id; strcpy(im_name, trans_rec.name);
-				new_id = trans_rec.id; // ÀÌÀüÀÇ key°ªÀ» ÀúÀåÇÒ new_id
-				delete_record = FALSE; // »èÁ¦¸¦ ¸¸³ª°Ô µÇ´Â °æ¿ì¸¦ È®ÀÎÇÒ º¯¼ö
+				new_id = trans_rec.id; // ì´ì „ì˜ keyê°’ì„ ì €ì¥í•  new_id
+				delete_record = FALSE; // ì‚­ì œë¥¼ ë§Œë‚˜ê²Œ ë˜ëŠ” ê²½ìš°ë¥¼ í™•ì¸í•  ë³€ìˆ˜
 				Get_Transaction();
 				while (trans_rec.id != SENTINEL && trans_rec.id == new_id && !delete_record) {
 					switch (trans_rec.update_code) {
@@ -148,7 +148,7 @@ int main(void)
 					Get_Transaction();
 				}
 				
-				// »èÁ¦¸¦ ¼öÇàÇÏ¸é ¾Õ¿¡¼­ ÇÑ Æ®·£Àè¼Ç ¹«ÀÇ¹Ì
+				// ì‚­ì œë¥¼ ìˆ˜í–‰í•˜ë©´ ì•ì—ì„œ í•œ íŠ¸ëœì­ì…˜ ë¬´ì˜ë¯¸
 				if (!delete_record) {
 					Put_newrecord_To_New();
 				}
@@ -174,10 +174,10 @@ int main(void)
 	}
 
 	//===================================
-	//¼¾Æ¼³ÎÀ» ¸¸³­ °æ¿ì ÀÜ¿©·¹ÄÚµå Ã³¸®
+	//ì„¼í‹°ë„ì„ ë§Œë‚œ ê²½ìš° ì”ì—¬ë ˆì½”ë“œ ì²˜ë¦¬
 	//====================================
 
-	if (trans_rec.id == SENTINEL) // Transaction¿¡¼­ ¸ÕÀú ¼¾Æ¼³ÎÀ» ¸¸³­ °æ¿ì ±¸¸¶½ºÅÍ ³»¿ë º¹»ç
+	if (trans_rec.id == SENTINEL) // Transactionì—ì„œ ë¨¼ì € ì„¼í‹°ë„ì„ ë§Œë‚œ ê²½ìš° êµ¬ë§ˆìŠ¤í„° ë‚´ìš© ë³µì‚¬
 	{
 		while (old_rec.id != SENTINEL)
 		{
@@ -186,7 +186,7 @@ int main(void)
 		}
 
 	}
-	else // Old Master¿¡¼­ ¸ÕÀú ¼¾Æ¼³ÎÀ» ¸¸³­ °æ¿ì Æ®·£Àè¼Ç ·¹ÄÚµå Ã³¸®ÇÔ. »ğÀÔ('A') ¾Æ´Ï¸é ¸ğµÎ ¿¡·¯Ã³¸®;
+	else // Old Masterì—ì„œ ë¨¼ì € ì„¼í‹°ë„ì„ ë§Œë‚œ ê²½ìš° íŠ¸ëœì­ì…˜ ë ˆì½”ë“œ ì²˜ë¦¬í•¨. ì‚½ì…('A') ì•„ë‹ˆë©´ ëª¨ë‘ ì—ëŸ¬ì²˜ë¦¬;
 	{
 		while (trans_rec.id != SENTINEL)
 		{
@@ -244,19 +244,19 @@ int main(void)
 	}
 	fprintf(new_master, "%d %s %d\n", SENTINEL, "*", 0);
 
-	//¸¶¹«¸®
-	printf("Ãß°¡ È½¼ö : %d\n", add_cnt);
-	printf("¼öÁ¤ È½¼ö : %d\n", change_cnt);
-	printf("»èÁ¦ È½¼ö : %d\n", delete_cnt);
-	printf("¿À·ù È½¼ö : %d\n", error_cnt);
+	//ë§ˆë¬´ë¦¬
+	printf("ì¶”ê°€ íšŸìˆ˜ : %d\n", add_cnt);
+	printf("ìˆ˜ì • íšŸìˆ˜ : %d\n", change_cnt);
+	printf("ì‚­ì œ íšŸìˆ˜ : %d\n", delete_cnt);
+	printf("ì˜¤ë¥˜ íšŸìˆ˜ : %d\n", error_cnt);
 	fprintf(report, "==========\n");
-	fprintf(report, "°»½Å ¿ä¾à \n");
+	fprintf(report, "ê°±ì‹  ìš”ì•½ \n");
 	fprintf(report, "==========\n");
 
-	fprintf(report, "Ãß°¡ È½¼ö : %d\n", add_cnt);
-	fprintf(report, "¼öÁ¤ È½¼ö : %d\n", change_cnt);
-	fprintf(report, "»èÁ¦ È½¼ö : %d\n", delete_cnt);
-	fprintf(report, "¿À·ù È½¼ö : %d\n", error_cnt);
+	fprintf(report, "ì¶”ê°€ íšŸìˆ˜ : %d\n", add_cnt);
+	fprintf(report, "ìˆ˜ì • íšŸìˆ˜ : %d\n", change_cnt);
+	fprintf(report, "ì‚­ì œ íšŸìˆ˜ : %d\n", delete_cnt);
+	fprintf(report, "ì˜¤ë¥˜ íšŸìˆ˜ : %d\n", error_cnt);
 
 	fclose(old_master);
 	fclose(transaction);
