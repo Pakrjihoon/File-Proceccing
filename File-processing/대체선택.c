@@ -21,7 +21,7 @@ void main()
 {
 	int i;
 	fp = fopen("RUN-CRE.TXT", "r");
-	//Ã¹¹øÂ° run È­ÀÏ ÀÌ¸§ ¸¸µé±â
+	//ì²«ë²ˆì§¸ run í™”ì¼ ì´ë¦„ ë§Œë“¤ê¸°
 	make_run_name(0);
 	fp_run = fopen(run_name, "w");
 	i = 0;
@@ -34,9 +34,9 @@ void main()
 	}
 	for (;;)
 	{
-		// °¡ÀåÀÛÀº key°ª Ã£À½
+		// ê°€ì¥ì‘ì€ keyê°’ ì°¾ìŒ
 		i = mini();
-		if (i < 0) // i = -1 key°¡ ¸ğµÎ µ¿°áµÇ¾î ÀÖÀ½
+		if (i < 0) // i = -1 keyê°€ ëª¨ë‘ ë™ê²°ë˜ì–´ ìˆìŒ
 		{
 			make_free();
 			i = mini();
@@ -45,7 +45,7 @@ void main()
 	}
 }
 
-// keyÀÇ À§Ä¡ º¯°æ
+// keyì˜ ìœ„ì¹˜ ë³€ê²½
 void replace_key(int i)
 {
 	int input, output;
@@ -72,25 +72,25 @@ void make_free(void)
 	for (i = 0; i <= MEM_SIZE - 1; i++) fix[i] = ' ';
 	printf(" : %dth run\n", count);
 
-	// ¼¾Æ¼³Î °ª(-1) ±â·ÏÇÏ°í ·± »ı¼º ¸¶°¨
+	// ì„¼í‹°ë„ ê°’(-1) ê¸°ë¡í•˜ê³  ëŸ° ìƒì„± ë§ˆê°
 	fprintf(fp_run, "%3d\n", -1);
 	fclose(fp_run);
 
-	// »õ·Î¿î run È­ÀÏ ¸¸µé±â
+	// ìƒˆë¡œìš´ run í™”ì¼ ë§Œë“¤ê¸°
 	make_run_name(count);
 	fp_run = fopen(run_name, "w");
 }
-// key°ªÀÇ ÃÖ¼Ò°ªÀ» Ã£À½
+// keyê°’ì˜ ìµœì†Œê°’ì„ ì°¾ìŒ
 int mini()
 {
 	int min, min_arg, i;
-	min = 999; // ÃÊ±â ÃÖ¼Ò°ª
-	min_arg = -1; // ÀüºÎ´Ù µ¿°áµÇ¾î ÀÖ´Ù¸é 
+	min = 999; // ì´ˆê¸° ìµœì†Œê°’
+	min_arg = -1; // ì „ë¶€ë‹¤ ë™ê²°ë˜ì–´ ìˆë‹¤ë©´ 
 	for (i = 0; i <= MEM_SIZE - 1; i++)
 	{
 		if (fix[i] != '*')
 		{
-			// µ¿°áµÇ¾îÀÖÁö ¾ÊÀº Å°Áß¿¡¼­ 
+			// ë™ê²°ë˜ì–´ìˆì§€ ì•Šì€ í‚¤ì¤‘ì—ì„œ 
 			if (key[i] < min)
 			{
 				min = key[i];
@@ -100,7 +100,7 @@ int mini()
 	}
 	return(min_arg);
 }
-// ³²¾ÆÀÖ´Â key Ã³¸®
+// ë‚¨ì•„ìˆëŠ” key ì²˜ë¦¬
 void remain_buf()
 {
 	int i, j;
@@ -112,13 +112,13 @@ void remain_buf()
 		fix[j] = '*';
 	}
 	printf(" : last run \n");
-	// ¼¾Æ¼³Î °ª(-1) ±â·ÏÇÏ°í ·± »ı¼º ¸¶°¨
+	// ì„¼í‹°ë„ ê°’(-1) ê¸°ë¡í•˜ê³  ëŸ° ìƒì„± ë§ˆê°
 	fprintf(fp_run, "%3d\n", -1);
 	fclose(fp_run);
 	exit(1);
 }
 
-// »õ·Î¿î run ÆÄÀÏÀ» ¸¸µë 
+// ìƒˆë¡œìš´ run íŒŒì¼ì„ ë§Œë“¬ 
 void make_run_name(int run_number)
 {
 	char run_cnt[5];
